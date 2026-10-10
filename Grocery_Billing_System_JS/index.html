@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Grocery Billing System</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="loginPage" class="login-page">
+    <div class="login-card">
+      <h1>Grocery Billing System</h1>
+      <p>Admin Login</p>
+      <input id="username" type="text" placeholder="Username">
+      <input id="password" type="password" placeholder="Password">
+      <button onclick="login()">Login</button>
+      <!-- <small>Default: admin / admin123 </small> -->
+    </div>
+  </div>
+
+  <div id="app" class="app hidden">
+    <header>
+      <div>
+        <h1>Grocery Billing System</h1>
+        <span>Inventory & Billing Management</span>
+      </div>
+      <button class="logout" onclick="logout()">Logout</button>
+    </header>
+
+    <nav>
+      <button onclick="showPage('dashboard')">Dashboard</button>
+      <button onclick="showPage('products')">Products</button>
+      <button onclick="showPage('billing')">New Bill</button>
+      <button onclick="showPage('history')">Bill History</button>
+    </nav>
+
+    <main>
+      <section id="dashboard" class="page">
+        <h2>Dashboard</h2>
+        <div class="cards">
+          <div class="card"><h3>Total Products</h3><strong id="totalProducts">0</strong></div>
+          <div class="card"><h3>Total Stock</h3><strong id="totalStock">0</strong></div>
+          <div class="card"><h3>Total Bills</h3><strong id="totalBills">0</strong></div>
+          <div class="card"><h3>Total Sales</h3><strong id="totalSales">₹0.00</strong></div>
+        </div>
+        <div class="welcome">
+          <h3>Welcome to Grocery Billing System</h3>
+          <p>Use the navigation above to manage products, create bills and view previous transactions.</p>
+        </div>
+      </section>
+
+      <section id="products" class="page hidden">
+        <div class="section-title">
+          <h2>Product & Stock Management</h2>
+          <button onclick="clearProductForm()">Clear Form</button>
+        </div>
+
+        <div class="form-box">
+          <input type="hidden" id="productId">
+          <input id="productName" placeholder="Product Name">
+          <input id="productCategory" placeholder="Category">
+          <input id="productPrice" type="number" min="0" step="0.01" placeholder="Price">
+          <input id="productStock" type="number" min="0" placeholder="Stock">
+          <button onclick="saveProduct()">Save Product</button>
+          <button class="secondary" onclick="clearProductForm()">Clear</button>
+        </div>
+
+        <input class="search" id="productSearch" oninput="renderProducts()" placeholder="Search product or category...">
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>ID</th><th>Product</th><th>Category</th><th>Price</th><th>Stock</th><th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productTable"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section id="billing" class="page hidden">
+        <h2>Create New Bill</h2>
+
+        <div class="customer-box">
+          <input id="customerName" placeholder="Customer Name">
+          <input id="customerPhone" placeholder="Phone Number">
+        </div>
+
+        <div class="form-box">
+          <select id="billProduct"></select>
+          <input id="billQuantity" type="number" min="1" value="1" placeholder="Quantity">
+          <button onclick="addToBill()">Add to Bill</button>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th><th>Price</th><th>Quantity</th><th>Amount</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="billTable"></tbody>
+          </table>
+        </div>
+
+        <div class="bill-summary">
+          <p>Subtotal: <strong id="subtotal">₹0.00</strong></p>
+          <p>GST (5%): <strong id="gst">₹0.00</strong></p>
+          <h2>Grand Total: <span id="grandTotal">₹0.00</span></h2>
+          <button onclick="generateBill()">Generate Bill</button>
+          <button class="secondary" onclick="clearBill()">Clear Bill</button>
+        </div>
+      </section>
+
+      <section id="history" class="page hidden">
+        <div class="section-title">
+          <h2>Bill History</h2>
+          <button onclick="renderHistory()">Refresh</button>
+        </div>
+        <input class="search" id="historySearch" oninput="renderHistory()" placeholder="Search bill number, customer or phone...">
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Bill No.</th><th>Customer</th><th>Phone</th><th>Date</th><th>Total</th><th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="historyTable"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <footer>Grocery Billing System | HTML + CSS + JavaScript</footer>
+  </div>
+
+  <div id="billModal" class="modal hidden">
+    <div class="modal-content">
+      <button class="close" onclick="closeModal()">×</button>
+      <div id="billPreview"></div>
+      <button onclick="printBill()">Print Bill</button>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>

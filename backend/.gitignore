@@ -1,0 +1,12 @@
+# Private environment variables
+.env
+.env.*
+
+# Allow the example configuration
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Debug logs
+npm-debug.log*
